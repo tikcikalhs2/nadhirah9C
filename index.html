@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman Utama</title>
+  <style>
+    /* -------------------- GLOBAL STYLE -------------------- */
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-image: url(img/elemen.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .style5 { font-size: 36px; font-weight: bold; color: #FFFFFF; }
+    .style6 { font-size: 24px; color: #000000; }
+
+    /* -------------------- HEADER -------------------- */
+    .header {
+      background-color: #663300;
+      padding: 20px;
+      position: relative;
+      text-align: center;
+    }
+
+    .cart-box {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      background-color: #40E0D0;
+      color: #000;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .cart-box:hover {
+      background-color: #20b2aa;
+    }
+
+    /* -------------------- NAVBAR -------------------- */
+    .navbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #663300;
+      padding: 10px;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: #40E0D0;
+      color: black;
+    }
+
+    /* -------------------- BANNER -------------------- */
+    .banner {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .banner img {
+      width: 95%;
+      max-width: 1307px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    /* -------------------- MARQUEE -------------------- */
+    .marquee {
+      background-color: red;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    /* -------------------- PRODUK -------------------- */
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      padding: 30px;
+      justify-items: center;
+    }
+
+    .product-card {
+      background-color: #fff;
+      width: 230px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* Efek zoom halus saat gambar di-hover */
+    .product-card:hover img {
+      transform: scale(1.08);
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    .info {
+      background-color: #653020;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .price {
+      background-color: #3A4638;
+      color: #fff;
+      text-align: center;
+      padding: 8px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .product-card button {
+      width: 100%;
+      padding: 10px;
+      background-color: #40E0D0;
+      border: none;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .product-card button:hover {
+      background-color: #20b2aa;
+    }
+
+    /* -------------------- CART POPUP -------------------- */
+    .cart-details {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background-color: white;
+      color: black;
+      width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      display: none;
+      z-index: 10;
+    }
+
+    .cart-details h4 {
+      margin: 0 0 10px 0;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .cart-details ul {
+      padding-left: 20px;
+      margin: 0;
+      list-style-type: disc;
+    }
+
+    .cart-details .total {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: right;
+      color: #333;
+    }
+
+    /* -------------------- FOOTER -------------------- */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-top: 2px solid #ddd;
+    }
+
+    /* -------------------- RESPONSIVE -------------------- */
+    @media (max-width: 768px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <!-- ==================== HEADER ==================== -->
+  <div class="header">
+    <span class="style5">TOKO TIKI TUKU</span>
+    <div class="cart-box" onClick="toggleCart()">?? <span id="cart-count">0</span> Item</div>
+  </div>
+
+  <!-- ==================== KERANJANG ==================== -->
+  <div class="cart-details" id="cart-details">
+    <h4>Keranjang Belanja</h4>
+    <ul id="cart-items"></ul>
+    <div class="total">Total: Rp <span id="cart-total">0</span></div>
+  </div>
+
+  <!-- ==================== NAVIGASI ==================== -->
+  <div class="navbar">
+    <a href="#">Halaman Utama</a>
+    <a href="Shopping Guide.html">Shopping Guide</a>
+    <a href="Catalog.html">Catalog</a>
+    <a href="#">Profile</a>
+  </div>
+
+  <!-- ==================== BANNER ==================== -->
+  <div class="banner">
+    <img src="img/Cara-Memilih-Warna-Untuk-Usaha-Roti-dan-Kue.jpg" alt="Banner">
+  </div>
+
+  <!-- ==================== MARQUEE ==================== -->
+  <div class="marquee">
+    <marquee>BEST SELLER</marquee>
+  </div>
+
+  <!-- ==================== PRODUK ==================== -->
+  <div class="products" id="product-list">
+
+    <div class="product-card">
+      <img src="img/lava cake.png" alt="Lava Cake">
+      <div class="info">Lava Cake</div>
+      <div class="price">Rp 60.000</div>
+      <button onClick="addToCart('Lava Cake', 60000)">Tambah ke Keranjang</button>
+    </div>
+
+    <div class="product-card">
+      <img src="img/CUPCAKE.png" alt="Cupcake">
+      <div class="info">Strawberry Cupcake</div>
+      <div class="price">Rp 50.000</div>
+      <button onClick="addToCart('Strawberry Cupcake', 50000)">Tambah ke Keranjang</button>
+    </div>
+
+    <div class="product-card">
+      <img src="img/STRAWBERY CHEESCAKE.png" alt="Cheesecake">
+      <div class="info">Strawberry Cheese Cake</div>
+      <div class="price">Rp 150.000</div>
+      <button onClick="addToCart('Strawberry Cheese Cake', 150000)">Tambah ke Keranjang</button>
+    </div>
+
+    <div class="product-card">
+      <img src="img/kue ulang tahun.png" alt="Birthday Cake">
+      <div class="info">Strawberry Chocolate Cake</div>
+      <div class="price">Rp 250.000</div>
+      <button onClick="addToCart('Strawberry Chocolate Cake', 250000)">Tambah ke Keranjang</button>
+    </div>
+
+    <div class="product-card">
+      <img src="img/donut.png" alt="Donut">
+      <div class="info">Doughnut</div>
+      <div class="price">Rp 60.000</div>
+      <button onClick="addToCart('Doughnut', 60000)">Tambah ke Keranjang</button>
+    </div>
+
+    <div class="product-card">
+      <img src="img/MACAROON.png" alt="Macaroon">
+      <div class="info">Macaroon</div>
+      <div class="price">Rp 70.000</div>
+      <button onClick="addToCart('Macaroon', 70000)">Tambah ke Keranjang</button>
+    </div>
+
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <p class="style6">Nadhirah Siva.M || 2025</p>
+  </footer>
+
+  <!-- ==================== SCRIPT KERANJANG ==================== -->
+  <script>
+    const cart = [];
+    const cartCountEl = document.getElementById('cart-count');
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    const cartDetailsEl = document.getElementById('cart-details');
+
+    function addToCart(name, price) {
+      const existingItem = cart.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.qty += 1;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      updateCart();
+    }
+
+    function updateCart() {
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} x${item.qty} - Rp ${(
+          item.price * item.qty
+        ).toLocaleString()}`;
+        cartItemsEl.appendChild(li);
+        total += item.price * item.qty;
+        count += item.qty;
+      });
+
+      cartTotalEl.textContent = total.toLocaleString();
+      cartCountEl.textContent = count;
+    }
+
+    function toggleCart() {
+      cartDetailsEl.style.display =
+        cartDetailsEl.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
